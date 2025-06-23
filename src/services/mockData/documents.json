@@ -1,0 +1,49 @@
+{
+  "documents": [
+    {
+      "Id": 1,
+      "type": "resume",
+      "filename": "John_Doe_Resume_2024.pdf",
+      "version": 3,
+      "uploadDate": "2024-01-15T08:30:00Z",
+      "content": "Senior Frontend Developer with 5+ years experience in React, TypeScript, and modern web technologies...",
+      "applicationIds": [1, 2, 3, 4, 5]
+    },
+    {
+      "Id": 2,
+      "type": "cover_letter",
+      "filename": "Cover_Letter_TechCorp.pdf",
+      "version": 1,
+      "uploadDate": "2024-01-15T09:00:00Z",
+      "content": "Dear Hiring Manager, I am excited to apply for the Senior Frontend Developer position at TechCorp Solutions...",
+      "applicationIds": [1, 3, 5]
+    },
+    {
+      "Id": 3,
+      "type": "cover_letter",
+      "filename": "Cover_Letter_StartupXYZ.pdf",
+      "version": 1,
+      "uploadDate": "2024-01-18T08:45:00Z",
+      "content": "Dear StartupXYZ Team, I am writing to express my interest in the React Developer position...",
+      "applicationIds": [2]
+    },
+    {
+      "Id": 4,
+      "type": "portfolio",
+      "filename": "Portfolio_Projects_2024.pdf",
+      "version": 1,
+      "uploadDate": "2024-01-12T14:20:00Z",
+      "content": "Portfolio showcasing recent projects including e-commerce platform, dashboard application, and mobile-first designs...",
+      "applicationIds": [3]
+    },
+    {
+      "Id": 5,
+      "type": "cover_letter",
+      "filename": "Cover_Letter_DesignFirst.pdf",
+      "version": 1,
+      "uploadDate": "2024-01-20T12:15:00Z",
+      "content": "Dear DesignFirst Agency, I am thrilled to apply for the UI/UX Developer role...",
+      "applicationIds": [4]
+    }
+  ]
+}

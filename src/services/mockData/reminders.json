@@ -1,0 +1,49 @@
+{
+  "reminders": [
+    {
+      "Id": 1,
+      "applicationId": 1,
+      "date": "2024-01-29T10:00:00Z",
+      "type": "interview",
+      "message": "Second round interview with TechCorp Solutions",
+      "completed": false,
+      "createdAt": "2024-01-22T14:20:00Z"
+    },
+    {
+      "Id": 2,
+      "applicationId": 2,
+      "date": "2024-01-25T09:00:00Z",
+      "type": "follow_up",
+      "message": "Follow up on React Developer application",
+      "completed": false,
+      "createdAt": "2024-01-18T09:15:00Z"
+    },
+    {
+      "Id": 3,
+      "applicationId": 3,
+      "date": "2024-01-28T17:00:00Z",
+      "type": "deadline",
+      "message": "Respond to job offer from InnovateLabs",
+      "completed": false,
+      "createdAt": "2024-01-25T11:30:00Z"
+    },
+    {
+      "Id": 4,
+      "applicationId": 4,
+      "date": "2024-01-26T14:00:00Z",
+      "type": "interview",
+      "message": "Technical interview with DesignFirst Agency",
+      "completed": false,
+      "createdAt": "2024-01-23T15:10:00Z"
+    },
+    {
+      "Id": 5,
+      "applicationId": 1,
+      "date": "2024-01-31T12:00:00Z",
+      "type": "follow_up",
+      "message": "Send thank you email after second interview",
+      "completed": false,
+      "createdAt": "2024-01-22T14:20:00Z"
+    }
+  ]
+}

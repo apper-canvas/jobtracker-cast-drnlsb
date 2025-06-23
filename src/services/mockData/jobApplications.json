@@ -1,0 +1,94 @@
+{
+  "jobApplications": [
+    {
+      "Id": 1,
+      "title": "Senior Frontend Developer",
+      "company": "TechCorp Solutions",
+      "status": "interviewed",
+      "appliedDate": "2024-01-15",
+      "salary": {
+        "min": 90000,
+        "max": 120000,
+        "currency": "USD"
+      },
+      "location": "San Francisco, CA",
+      "notes": "Great team culture, innovative projects. Second round interview scheduled for next week.",
+      "jobUrl": "https://techcorp.com/careers/frontend-developer",
+      "documents": [1, 2],
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-22T14:20:00Z"
+    },
+    {
+      "Id": 2,
+      "title": "React Developer",
+      "company": "StartupXYZ",
+      "status": "applied",
+      "appliedDate": "2024-01-18",
+      "salary": {
+        "min": 75000,
+        "max": 95000,
+        "currency": "USD"
+      },
+      "location": "Remote",
+      "notes": "Exciting startup in fintech space. Applied through AngelList.",
+      "jobUrl": "https://startupxyz.com/jobs/react-developer",
+      "documents": [1, 3],
+      "createdAt": "2024-01-18T09:15:00Z",
+      "updatedAt": "2024-01-18T09:15:00Z"
+    },
+    {
+      "Id": 3,
+      "title": "Full Stack Engineer",
+      "company": "InnovateLabs",
+      "status": "offer",
+      "appliedDate": "2024-01-10",
+      "salary": {
+        "min": 110000,
+        "max": 140000,
+        "currency": "USD"
+      },
+      "location": "Austin, TX",
+      "notes": "Received offer! Negotiating salary and benefits. Great company culture and growth opportunities.",
+      "jobUrl": "https://innovatelabs.com/careers/fullstack-engineer",
+      "documents": [1, 2, 4],
+      "createdAt": "2024-01-10T16:45:00Z",
+      "updatedAt": "2024-01-25T11:30:00Z"
+    },
+    {
+      "Id": 4,
+      "title": "UI/UX Developer",
+      "company": "DesignFirst Agency",
+      "status": "phone_screen",
+      "appliedDate": "2024-01-20",
+      "salary": {
+        "min": 70000,
+        "max": 90000,
+        "currency": "USD"
+      },
+      "location": "New York, NY",
+      "notes": "Phone screen went well. They're looking for someone with strong design systems experience.",
+      "jobUrl": "https://designfirst.com/careers/ui-ux-developer",
+      "documents": [1, 5],
+      "createdAt": "2024-01-20T13:20:00Z",
+      "updatedAt": "2024-01-23T15:10:00Z"
+    },
+    {
+      "Id": 5,
+      "title": "JavaScript Developer",
+      "company": "WebFlow Solutions",
+      "status": "rejected",
+      "appliedDate": "2024-01-08",
+      "salary": {
+        "min": 65000,
+        "max": 85000,
+        "currency": "USD"
+      },
+      "location": "Chicago, IL",
+      "notes": "Position filled internally. Good feedback on technical skills, recommended to apply for future openings.",
+      "jobUrl": "https://webflowsolutions.com/careers/js-developer",
+      "documents": [1, 2],
+      "createdAt": "2024-01-08T12:00:00Z",
+      "updatedAt": "2024-01-19T10:45:00Z"
+    }
+  ]
+}
