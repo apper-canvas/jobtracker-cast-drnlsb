@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 1,
+    "title": "Software Engineer at Tech Corp",
+    "company": "Tech Corp",
+    "position": "Software Engineer",
+    "content": "Key points to remember:\n- Strong background in React and Node.js\n- Experience with microservices architecture\n- Emphasis on team collaboration and agile methodologies\n- Company culture focuses on innovation and continuous learning",
+    "tags": ["technical", "react", "nodejs"],
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "title": "Frontend Developer at StartupCo",
+    "company": "StartupCo",
+    "position": "Frontend Developer",
+    "content": "Interview preparation notes:\n- Fast-paced startup environment\n- Need to showcase portfolio projects\n- Emphasis on modern frontend frameworks\n- Questions about handling tight deadlines and multiple projects",
+    "tags": ["frontend", "startup", "portfolio"],
+    "createdAt": "2024-01-18T14:20:00Z",
+    "updatedAt": "2024-01-18T14:20:00Z"
+  },
+  {
+    "Id": 3,
+    "title": "Full Stack Developer at Enterprise Inc",
+    "company": "Enterprise Inc",
+    "position": "Full Stack Developer",
+    "content": "Important details:\n- Large enterprise environment\n- Focus on scalability and security\n- Experience with cloud platforms (AWS/Azure)\n- Team lead mentioned interest in mentoring junior developers",
+    "tags": ["fullstack", "enterprise", "cloud", "mentoring"],
+    "createdAt": "2024-01-20T09:15:00Z",
+    "updatedAt": "2024-01-20T09:15:00Z"
+  }
+]

@@ -4,6 +4,7 @@ import ApplicationDetail from '@/components/pages/ApplicationDetail';
 import Documents from '@/components/pages/Documents';
 import Calendar from '@/components/pages/Calendar';
 import Settings from '@/components/pages/Settings';
+import Interview from '@/components/pages/Interview';
 
 export const routes = {
   dashboard: {
@@ -41,6 +42,13 @@ export const routes = {
     path: '/calendar',
     icon: 'Calendar',
     component: Calendar
+  },
+interview: {
+    id: 'interview',
+    label: 'Interview Prep',
+    path: '/interview',
+    icon: 'MessageSquare',
+    component: Interview
   },
   settings: {
     id: 'settings',

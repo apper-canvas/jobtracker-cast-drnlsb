@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "question": "Tell me about yourself and your background in software development.",
+    "category": "General",
+    "difficulty": "Easy",
+    "answer": "I'm a passionate software developer with X years of experience in full-stack development. I specialize in React, Node.js, and modern web technologies. I enjoy solving complex problems and building user-focused applications.",
+    "notes": "Keep it concise, focus on relevant experience, end with enthusiasm for the role",
+    "createdAt": "2024-01-15T11:00:00Z",
+    "updatedAt": "2024-01-15T11:00:00Z"
+  },
+  {
+    "Id": 2,
+    "question": "Explain the difference between let, const, and var in JavaScript.",
+    "category": "Technical",
+    "difficulty": "Medium",
+    "answer": "var is function-scoped and can be redeclared, let is block-scoped and can be reassigned but not redeclared, const is block-scoped and cannot be reassigned or redeclared.",
+    "notes": "Include examples of hoisting behavior and temporal dead zone",
+    "createdAt": "2024-01-16T13:30:00Z",
+    "updatedAt": "2024-01-16T13:30:00Z"
+  },
+  {
+    "Id": 3,
+    "question": "Describe a time when you had to work with a difficult team member.",
+    "category": "Behavioral",
+    "difficulty": "Medium",
+    "answer": "Use STAR method: Situation - describe the context, Task - explain what needed to be accomplished, Action - detail what you did, Result - share the positive outcome.",
+    "notes": "Focus on communication, empathy, and problem-solving skills",
+    "createdAt": "2024-01-17T10:45:00Z",
+    "updatedAt": "2024-01-17T10:45:00Z"
+  },
+  {
+    "Id": 4,
+    "question": "How would you optimize a React application for performance?",
+    "category": "Technical",
+    "difficulty": "Hard",
+    "answer": "Use React.memo for component memoization, useMemo and useCallback for expensive calculations, code splitting with lazy loading, optimize bundle size, minimize re-renders, use React DevTools Profiler.",
+    "notes": "Mention specific tools and techniques, provide concrete examples",
+    "createdAt": "2024-01-18T15:20:00Z",
+    "updatedAt": "2024-01-18T15:20:00Z"
+  }
+]
