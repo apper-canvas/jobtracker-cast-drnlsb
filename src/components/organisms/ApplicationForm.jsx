@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import FormField from '@/components/molecules/FormField';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import jobApplicationService from '@/services/api/jobApplicationService';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import jobApplicationService from "@/services/api/jobApplicationService";
+import FormField from "@/components/molecules/FormField";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
 
 const ApplicationForm = ({ applicationId, onSuccess, onCancel }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: '',
     company: '',
     status: 'applied',
@@ -15,11 +15,15 @@ const ApplicationForm = ({ applicationId, onSuccess, onCancel }) => {
     salary: { min: '', max: '', currency: 'USD' },
     location: '',
     notes: '',
-    jobUrl: ''
+    jobUrl: '',
+    coverLetterTemplate: '',
+    coverLetterContent: ''
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [templates, setTemplates] = useState([]);
+  const [templatesLoading, setTemplatesLoading] = useState(false);
 
   const statusOptions = [
     { value: 'applied', label: 'Applied' },
@@ -141,6 +145,26 @@ const ApplicationForm = ({ applicationId, onSuccess, onCancel }) => {
         ...prev,
         [field]: undefined
       }));
+    }
+};
+
+  const handleTemplateChange = async (templateId) => {
+    if (!templateId) {
+      handleInputChange('coverLetterTemplate', '');
+      handleInputChange('coverLetterContent', '');
+      return;
+    }
+
+    setTemplatesLoading(true);
+    try {
+      handleInputChange('coverLetterTemplate', templateId);
+      // You can implement template loading logic here if needed
+      // For now, just clear the content when template changes
+      handleInputChange('coverLetterContent', '');
+    } catch (error) {
+      toast.error('Failed to load template');
+    } finally {
+      setTemplatesLoading(false);
     }
   };
 
@@ -268,7 +292,33 @@ const ApplicationForm = ({ applicationId, onSuccess, onCancel }) => {
             onChange={(e) => handleInputChange('notes', e.target.value)}
             placeholder="Add any notes about the application, interview process, company culture, etc."
             rows={4}
-          />
+/>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-900">Cover Letter</h3>
+            
+            <FormField
+              type="select"
+              label="Cover Letter Template"
+              value={formData.coverLetterTemplate}
+              onChange={(e) => handleTemplateChange(e.target.value)}
+              options={templates}
+              loading={templatesLoading}
+              placeholder="Choose a template..."
+            />
+
+            {formData.coverLetterTemplate && (
+              <FormField
+                type="textarea"
+                label="Cover Letter Content"
+                value={formData.coverLetterContent}
+                onChange={(e) => handleInputChange('coverLetterContent', e.target.value)}
+                placeholder="Your cover letter content will appear here..."
+                rows={8}
+                className="font-mono text-sm"
+              />
+            )}
+          </div>
 
           <div className="flex gap-3 pt-4 border-t border-gray-200">
             <Button

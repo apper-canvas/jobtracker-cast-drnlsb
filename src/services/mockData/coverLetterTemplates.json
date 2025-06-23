@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "name": "Software Engineer Template",
+    "category": "Engineering",
+    "subject": "Application for {jobTitle} Position at {companyName}",
+    "content": "Dear Hiring Manager,\n\nI am writing to express my strong interest in the {jobTitle} position at {companyName}. With my extensive experience in software development and passion for creating innovative solutions, I am confident that I would be a valuable addition to your team.\n\nIn my previous roles, I have:\n• Developed scalable web applications using modern frameworks\n• Collaborated with cross-functional teams to deliver high-quality products\n• Implemented best practices for code quality and testing\n\nI am particularly drawn to {companyName} because of {companyReason}. I believe my skills in {keySkills} align perfectly with your requirements.\n\nI would welcome the opportunity to discuss how my experience can contribute to {companyName}'s continued success. Thank you for considering my application.\n\nBest regards,\n{applicantName}",
+    "variables": ["jobTitle", "companyName", "companyReason", "keySkills", "applicantName"],
+    "createdAt": "2024-01-15T10:00:00Z",
+    "updatedAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Marketing Professional Template",
+    "category": "Marketing",
+    "subject": "Marketing Professional - {jobTitle} at {companyName}",
+    "content": "Dear Hiring Team,\n\nI am excited to apply for the {jobTitle} position at {companyName}. With {yearsExperience} years of experience in digital marketing and a proven track record of driving growth, I am eager to contribute to your marketing initiatives.\n\nMy expertise includes:\n• Strategic campaign development and execution\n• Data-driven marketing analytics and optimization\n• Brand management and content strategy\n• Cross-channel marketing coordination\n\n{companyName}'s innovative approach to {industryFocus} resonates with my professional values and career aspirations. I am particularly impressed by {specificAchievement} and would love to contribute to similar successes.\n\nI have attached my resume and portfolio for your review. I look forward to the opportunity to discuss how my marketing expertise can help {companyName} achieve its goals.\n\nSincerely,\n{applicantName}",
+    "variables": ["jobTitle", "companyName", "yearsExperience", "industryFocus", "specificAchievement", "applicantName"],
+    "createdAt": "2024-01-16T14:30:00Z",
+    "updatedAt": "2024-01-16T14:30:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Data Analyst Template",
+    "category": "Analytics",
+    "subject": "Data Analyst Application - {companyName}",
+    "content": "Dear Hiring Manager,\n\nI am writing to apply for the {jobTitle} position at {companyName}. As a data professional with expertise in {primarySkills}, I am excited about the opportunity to help {companyName} leverage data for strategic decision-making.\n\nMy background includes:\n• Advanced proficiency in SQL, Python, and data visualization tools\n• Experience with statistical analysis and predictive modeling\n• Strong communication skills for presenting insights to stakeholders\n• Track record of improving business processes through data-driven recommendations\n\nI am particularly interested in {companyName} because of your commitment to {companyValues}. I believe my analytical mindset and attention to detail would be valuable in supporting your data initiatives.\n\nI would appreciate the opportunity to discuss how my analytical skills can contribute to {companyName}'s success. Thank you for your time and consideration.\n\nBest regards,\n{applicantName}",
+    "variables": ["jobTitle", "companyName", "primarySkills", "companyValues", "applicantName"],
+    "createdAt": "2024-01-17T09:15:00Z",
+    "updatedAt": "1/17/2024 9:15:00 AMZ"
+  },
+  {
+    "Id": 4,
+    "name": "General Professional Template",
+    "category": "General",
+    "subject": "Application for {jobTitle} Position",
+    "content": "Dear Hiring Manager,\n\nI am pleased to submit my application for the {jobTitle} position at {companyName}. With my background in {fieldOfExpertise} and {yearsExperience} years of professional experience, I am confident I can make a meaningful contribution to your team.\n\nKey highlights of my qualifications include:\n• {achievement1}\n• {achievement2}\n• {achievement3}\n\nI am drawn to {companyName} because of {attractionReason}. I am excited about the possibility of bringing my skills and enthusiasm to your organization.\n\nI have attached my resume for your review and would welcome the opportunity to discuss my qualifications in more detail. Thank you for considering my application.\n\nSincerely,\n{applicantName}",
+    "variables": ["jobTitle", "companyName", "fieldOfExpertise", "yearsExperience", "achievement1", "achievement2", "achievement3", "attractionReason", "applicantName"],
+    "createdAt": "2024-01-18T16:45:00Z",
+    "updatedAt": "2024-01-18T16:45:00Z"
+  }
+]
