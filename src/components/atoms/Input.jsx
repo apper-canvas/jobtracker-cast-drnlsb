@@ -10,14 +10,23 @@ const Input = forwardRef(({
   className = '',
   containerClassName = '',
   type = 'text',
+  children, // Explicitly extract children to prevent passing to input
+  dangerouslySetInnerHTML, // Explicitly extract to prevent passing to input
   ...props 
 }, ref) => {
+  // Filter out props that should never be passed to input elements
+  const {
+    children: _children,
+    dangerouslySetInnerHTML: _dangerouslySetInnerHTML,
+    ...safeInputProps
+  } = props;
+
   const inputClasses = `
     w-full px-3 py-2 border rounded-lg transition-all duration-200
     focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
     ${error ? 'border-error' : 'border-gray-300'}
     ${icon ? (iconPosition === 'left' ? 'pl-10' : 'pr-10') : ''}
-    ${props.disabled ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'bg-white'}
+    ${safeInputProps.disabled ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'bg-white'}
     ${className}
   `;
 
@@ -26,7 +35,7 @@ const Input = forwardRef(({
       {label && (
         <label className="block text-sm font-medium text-gray-700">
           {label}
-          {props.required && <span className="text-error ml-1">*</span>}
+          {safeInputProps.required && <span className="text-error ml-1">*</span>}
         </label>
       )}
       
@@ -41,7 +50,7 @@ const Input = forwardRef(({
           ref={ref}
           type={type}
           className={inputClasses}
-          {...props}
+          {...safeInputProps}
         />
         
         {icon && iconPosition === 'right' && (
