@@ -1,15 +1,345 @@
-import interviewNotesData from '@/services/mockData/interviewNotes.json';
-import interviewQuestionsData from '@/services/mockData/interviewQuestions.json';
+const delay = (ms = 200) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Notes data management
-let notesData = [...interviewNotesData];
-let lastNoteId = Math.max(...notesData.map(note => note.Id), 0);
+// ApperClient setup
+let apperClient = null;
 
-// Questions data management
-let questionsData = [...interviewQuestionsData];
-let lastQuestionId = Math.max(...questionsData.map(question => question.Id), 0);
+const initClient = () => {
+  if (typeof window !== 'undefined' && window.ApperSDK && !apperClient) {
+    const { ApperClient } = window.ApperSDK;
+    apperClient = new ApperClient({
+      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+    });
+  }
+};
 
-// Scheduled interviews data management
+// Interview Notes Service Functions
+export const getAllNotes = async () => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const params = {
+    fields: [
+      { field: { Name: "Name" } },
+      { field: { Name: "title" } },
+      { field: { Name: "company" } },
+      { field: { Name: "position" } },
+      { field: { Name: "content" } },
+      { field: { Name: "created_at" } },
+      { field: { Name: "updated_at" } }
+    ],
+    orderBy: [{ fieldName: "created_at", sorttype: "DESC" }]
+  };
+
+  const response = await apperClient.fetchRecords('interview_note', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to fetch interview notes');
+  }
+
+  return response.data || [];
+};
+
+export const getNoteById = async (id) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const noteId = parseInt(id);
+  if (isNaN(noteId)) return null;
+
+  const params = {
+    fields: [
+      { field: { Name: "Name" } },
+      { field: { Name: "title" } },
+      { field: { Name: "company" } },
+      { field: { Name: "position" } },
+      { field: { Name: "content" } },
+      { field: { Name: "created_at" } },
+      { field: { Name: "updated_at" } }
+    ]
+  };
+
+  const response = await apperClient.getRecordById('interview_note', noteId, params);
+  
+  if (!response.success) {
+    return null;
+  }
+
+  return response.data;
+};
+
+export const createNote = async (noteData) => {
+  await delay();
+  if (!apperClient) initClient();
+
+  const params = {
+    records: [{
+      Name: noteData.title || '',
+      title: noteData.title || '',
+      company: noteData.company || '',
+      position: noteData.position || '',
+      content: noteData.content || '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }]
+  };
+
+  const response = await apperClient.createRecord('interview_note', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to create interview note');
+  }
+
+  if (response.results) {
+    const successfulRecords = response.results.filter(result => result.success);
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to create interview note');
+    }
+    
+    return successfulRecords[0]?.data;
+  }
+
+  return response.data;
+};
+
+export const updateNote = async (id, noteData) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const noteId = parseInt(id);
+  if (isNaN(noteId)) throw new Error('Invalid note ID');
+
+  const params = {
+    records: [{
+      Id: noteId,
+      Name: noteData.title,
+      title: noteData.title,
+      company: noteData.company,
+      position: noteData.position,
+      content: noteData.content,
+      updated_at: new Date().toISOString()
+    }]
+  };
+
+  const response = await apperClient.updateRecord('interview_note', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to update interview note');
+  }
+
+  if (response.results) {
+    const successfulRecords = response.results.filter(result => result.success);
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to update ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to update interview note');
+    }
+    
+    return successfulRecords[0]?.data;
+  }
+
+  return response.data;
+};
+
+export const deleteNote = async (id) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const noteId = parseInt(id);
+  if (isNaN(noteId)) throw new Error('Invalid note ID');
+
+  const params = {
+    RecordIds: [noteId]
+  };
+
+  const response = await apperClient.deleteRecord('interview_note', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to delete interview note');
+  }
+
+  if (response.results) {
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to delete ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to delete interview note');
+    }
+  }
+
+  return true;
+};
+
+// Interview Questions Service Functions
+export const getAllQuestions = async () => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const params = {
+    fields: [
+      { field: { Name: "Name" } },
+      { field: { Name: "question" } },
+      { field: { Name: "category" } },
+      { field: { Name: "difficulty" } },
+      { field: { Name: "answer" } },
+      { field: { Name: "notes" } },
+      { field: { Name: "created_at" } },
+      { field: { Name: "updated_at" } }
+    ],
+    orderBy: [{ fieldName: "created_at", sorttype: "DESC" }]
+  };
+
+  const response = await apperClient.fetchRecords('interview_question', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to fetch interview questions');
+  }
+
+  return response.data || [];
+};
+
+export const getQuestionById = async (id) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const questionId = parseInt(id);
+  if (isNaN(questionId)) return null;
+
+  const params = {
+    fields: [
+      { field: { Name: "Name" } },
+      { field: { Name: "question" } },
+      { field: { Name: "category" } },
+      { field: { Name: "difficulty" } },
+      { field: { Name: "answer" } },
+      { field: { Name: "notes" } },
+      { field: { Name: "created_at" } },
+      { field: { Name: "updated_at" } }
+    ]
+  };
+
+  const response = await apperClient.getRecordById('interview_question', questionId, params);
+  
+  if (!response.success) {
+    return null;
+  }
+
+  return response.data;
+};
+
+export const createQuestion = async (questionData) => {
+  await delay();
+  if (!apperClient) initClient();
+
+  const params = {
+    records: [{
+      Name: questionData.question ? questionData.question.substring(0, 50) + '...' : '',
+      question: questionData.question || '',
+      category: questionData.category || 'General',
+      difficulty: questionData.difficulty || 'Medium',
+      answer: questionData.answer || '',
+      notes: questionData.notes || '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }]
+  };
+
+  const response = await apperClient.createRecord('interview_question', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to create interview question');
+  }
+
+  if (response.results) {
+    const successfulRecords = response.results.filter(result => result.success);
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to create interview question');
+    }
+    
+    return successfulRecords[0]?.data;
+  }
+
+  return response.data;
+};
+
+export const updateQuestion = async (id, questionData) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const questionId = parseInt(id);
+  if (isNaN(questionId)) throw new Error('Invalid question ID');
+
+  const params = {
+    records: [{
+      Id: questionId,
+      Name: questionData.question ? questionData.question.substring(0, 50) + '...' : '',
+      question: questionData.question,
+      category: questionData.category,
+      difficulty: questionData.difficulty,
+      answer: questionData.answer,
+      notes: questionData.notes,
+      updated_at: new Date().toISOString()
+    }]
+  };
+
+  const response = await apperClient.updateRecord('interview_question', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to update interview question');
+  }
+
+  if (response.results) {
+    const successfulRecords = response.results.filter(result => result.success);
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to update ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to update interview question');
+    }
+    
+    return successfulRecords[0]?.data;
+  }
+
+  return response.data;
+};
+
+export const deleteQuestion = async (id) => {
+  await delay();
+  if (!apperClient) initClient();
+  
+  const questionId = parseInt(id);
+  if (isNaN(questionId)) throw new Error('Invalid question ID');
+
+  const params = {
+    RecordIds: [questionId]
+  };
+
+  const response = await apperClient.deleteRecord('interview_question', params);
+  
+  if (!response.success) {
+    throw new Error(response.message || 'Failed to delete interview question');
+  }
+
+  if (response.results) {
+    const failedRecords = response.results.filter(result => !result.success);
+    
+    if (failedRecords.length > 0) {
+      console.error(`Failed to delete ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+      throw new Error(failedRecords[0].message || 'Failed to delete interview question');
+    }
+  }
+
+  return true;
+};
+
+// Scheduled Interviews Service Functions (Mock implementation for now)
 let scheduledInterviewsData = [
   {
     Id: 1,
@@ -46,126 +376,6 @@ let scheduledInterviewsData = [
 ];
 let lastScheduledInterviewId = Math.max(...scheduledInterviewsData.map(interview => interview.Id), 0);
 
-// Utility function to simulate API delay
-const delay = (ms = 200) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Interview Notes Service Functions
-export const getAllNotes = async () => {
-  await delay();
-  return [...notesData];
-};
-
-export const getNoteById = async (id) => {
-  await delay();
-  const noteId = parseInt(id);
-  if (isNaN(noteId)) return null;
-  
-  const note = notesData.find(note => note.Id === noteId);
-  return note ? { ...note } : null;
-};
-
-export const createNote = async (noteData) => {
-  await delay();
-  const newNote = {
-    ...noteData,
-    Id: ++lastNoteId,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
-  notesData.push(newNote);
-  return { ...newNote };
-};
-
-export const updateNote = async (id, noteData) => {
-  await delay();
-  const noteId = parseInt(id);
-  if (isNaN(noteId)) throw new Error('Invalid note ID');
-  
-  const index = notesData.findIndex(note => note.Id === noteId);
-  if (index === -1) throw new Error('Note not found');
-  
-  const updatedNote = {
-    ...notesData[index],
-    ...noteData,
-    Id: noteId, // Prevent ID modification
-    updatedAt: new Date().toISOString()
-  };
-  
-  notesData[index] = updatedNote;
-  return { ...updatedNote };
-};
-
-export const deleteNote = async (id) => {
-  await delay();
-  const noteId = parseInt(id);
-  if (isNaN(noteId)) throw new Error('Invalid note ID');
-  
-  const index = notesData.findIndex(note => note.Id === noteId);
-  if (index === -1) throw new Error('Note not found');
-  
-  notesData.splice(index, 1);
-  return true;
-};
-
-// Interview Questions Service Functions
-export const getAllQuestions = async () => {
-  await delay();
-  return [...questionsData];
-};
-
-export const getQuestionById = async (id) => {
-  await delay();
-  const questionId = parseInt(id);
-  if (isNaN(questionId)) return null;
-  
-  const question = questionsData.find(question => question.Id === questionId);
-  return question ? { ...question } : null;
-};
-
-export const createQuestion = async (questionData) => {
-  await delay();
-  const newQuestion = {
-    ...questionData,
-    Id: ++lastQuestionId,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
-  questionsData.push(newQuestion);
-  return { ...newQuestion };
-};
-
-export const updateQuestion = async (id, questionData) => {
-  await delay();
-  const questionId = parseInt(id);
-  if (isNaN(questionId)) throw new Error('Invalid question ID');
-  
-  const index = questionsData.findIndex(question => question.Id === questionId);
-  if (index === -1) throw new Error('Question not found');
-  
-  const updatedQuestion = {
-    ...questionsData[index],
-    ...questionData,
-    Id: questionId, // Prevent ID modification
-    updatedAt: new Date().toISOString()
-  };
-  
-  questionsData[index] = updatedQuestion;
-  return { ...updatedQuestion };
-};
-
-export const deleteQuestion = async (id) => {
-  await delay();
-  const questionId = parseInt(id);
-  if (isNaN(questionId)) throw new Error('Invalid question ID');
-  
-  const index = questionsData.findIndex(question => question.Id === questionId);
-  if (index === -1) throw new Error('Question not found');
-  
-questionsData.splice(index, 1);
-  return true;
-};
-
-// Scheduled Interviews Service Functions
 export const getScheduledInterviews = async () => {
   await delay();
   return [...scheduledInterviewsData];
@@ -205,7 +415,7 @@ export const updateScheduledInterview = async (id, interviewData) => {
   const updatedInterview = {
     ...scheduledInterviewsData[index],
     ...interviewData,
-    Id: interviewId, // Prevent ID modification
+    Id: interviewId,
     updatedAt: new Date().toISOString()
   };
   

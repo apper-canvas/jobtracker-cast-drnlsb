@@ -204,17 +204,17 @@ const DocumentUpload = ({ documents = [], onUpdate }) => {
                               </div>
                               
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium text-gray-900 truncate">
+<h4 className="font-medium text-gray-900 truncate">
                                   {document.filename}
                                 </h4>
                                 <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
                                   <span>Version {document.version}</span>
                                   <span>
-                                    Uploaded {new Date(document.uploadDate).toLocaleDateString()}
+                                    Uploaded {new Date(document.upload_date || document.uploadDate).toLocaleDateString()}
                                   </span>
-                                  {document.applicationIds?.length > 0 && (
+{(document.application_ids || document.applicationIds)?.length > 0 && (
                                     <span>
-                                      Used in {document.applicationIds.length} application{document.applicationIds.length !== 1 ? 's' : ''}
+                                      Used in {(document.application_ids?.split(',') || document.applicationIds).length} application{(document.application_ids?.split(',') || document.applicationIds).length !== 1 ? 's' : ''}
                                     </span>
                                   )}
                                 </div>

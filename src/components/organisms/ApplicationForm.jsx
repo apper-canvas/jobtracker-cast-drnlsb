@@ -47,10 +47,20 @@ const [formData, setFormData] = useState({
   }, [applicationId]);
 
   const loadApplication = async () => {
-    setInitialLoading(true);
+setInitialLoading(true);
     try {
       const application = await jobApplicationService.getById(applicationId);
-      setFormData(application);
+      // Map database fields to form data
+      setFormData({
+        ...application,
+        appliedDate: application.applied_date || application.appliedDate,
+        jobUrl: application.job_url || application.jobUrl,
+        salary: {
+          min: application.salary_min || '',
+          max: application.salary_max || '',
+          currency: application.salary_currency || 'USD'
+        }
+      });
     } catch (error) {
       toast.error('Failed to load application');
     } finally {

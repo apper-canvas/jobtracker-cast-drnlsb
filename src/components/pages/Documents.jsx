@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import EmptyState from '@/components/molecules/EmptyState';
-import SearchBar from '@/components/molecules/SearchBar';
-import SkeletonLoader from '@/components/molecules/SkeletonLoader';
-import FormField from '@/components/molecules/FormField';
-import DocumentUpload from '@/components/organisms/DocumentUpload';
-import documentService from '@/services/api/documentService';
-import coverLetterTemplateService from '@/services/api/coverLetterTemplateService';
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import coverLetterTemplateService from "@/services/api/coverLetterTemplateService";
+import documentService from "@/services/api/documentService";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import SkeletonLoader from "@/components/molecules/SkeletonLoader";
+import EmptyState from "@/components/molecules/EmptyState";
+import SearchBar from "@/components/molecules/SearchBar";
+import DocumentUpload from "@/components/organisms/DocumentUpload";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
 
 const Documents = () => {
   const [activeTab, setActiveTab] = useState('documents');
@@ -322,10 +322,9 @@ const filteredTemplates = templates.filter(template => {
                         </button>
                       </div>
                     </div>
-
-                    <div className="flex-1">
+<div className="flex-1">
                       <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                        {document.name}
+                        {document.Name || document.filename}
                       </h3>
                       {document.description && (
                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">
@@ -334,10 +333,10 @@ const filteredTemplates = templates.filter(template => {
                       )}
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-xs text-gray-500">
-                          {formatFileSize(document.size)}
+                          Version {document.version}
                         </span>
                         <span className="text-xs text-gray-500">
-                          {new Date(document.uploadedAt).toLocaleDateString()}
+                          {new Date(document.upload_date || document.uploadedAt).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
@@ -409,19 +408,19 @@ const filteredTemplates = templates.filter(template => {
                       </div>
                     </div>
 
-                    <div className="flex-1">
+<div className="flex-1">
                       <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                        {template.name}
+                        {template.Name || template.name}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3 line-clamp-3">
-                        {template.content.substring(0, 150)}...
+                        {template.content?.substring(0, 150)}...
                       </p>
                       <div className="flex items-center justify-between mt-auto">
                         <span className="text-xs text-gray-500">
-                          {template.variables.length} variables
+                          {(template.variables ? template.variables.split(',').length : 0)} variables
                         </span>
                         <span className="text-xs text-gray-500">
-                          {new Date(template.updatedAt).toLocaleDateString()}
+                          {new Date(template.updated_at || template.updatedAt).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
@@ -561,15 +560,15 @@ const filteredTemplates = templates.filter(template => {
                       {viewTemplate.content}
                     </pre>
                   </div>
-                  <div>
+<div>
                     <h4 className="font-semibold text-gray-900 mb-2">Variables:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {viewTemplate.variables.map((variable) => (
+                      {viewTemplate.variables?.split(',').map((variable) => (
                         <span
                           key={variable}
                           className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
                         >
-                          {variable}
+                          {variable?.trim()}
                         </span>
                       ))}
                     </div>

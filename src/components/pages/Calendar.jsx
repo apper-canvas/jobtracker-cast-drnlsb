@@ -86,8 +86,8 @@ const getEventsForDate = (date) => {
     });
     
     // Add application dates
-    applications.forEach(application => {
-      if (isSameDay(new Date(application.appliedDate), date)) {
+applications.forEach(application => {
+      if (isSameDay(new Date(application.applied_date || application.appliedDate), date)) {
         events.push({
           ...application,
           type: 'application',

@@ -46,9 +46,9 @@ const ApplicationList = ({ applications = [], onUpdate }) => {
       
       return matchesSearch && matchesStatus;
     })
-    .sort((a, b) => {
-      let aValue = a[sortBy];
-      let bValue = b[sortBy];
+.sort((a, b) => {
+      let aValue = a[sortBy === 'appliedDate' ? 'applied_date' : sortBy] || a[sortBy];
+      let bValue = b[sortBy === 'appliedDate' ? 'applied_date' : sortBy] || b[sortBy];
       
       if (sortBy === 'appliedDate') {
         aValue = new Date(aValue);
@@ -213,14 +213,21 @@ const ApplicationList = ({ applications = [], onUpdate }) => {
                     )}
                     
                     <div className="flex items-center gap-1">
-                      <ApperIcon name="Calendar" size={14} />
-                      <span>Applied {format(new Date(application.appliedDate), 'MMM d, yyyy')}</span>
+<span>Applied {format(new Date(application.applied_date || application.appliedDate), 'MMM d, yyyy')}</span>
                     </div>
                     
-                    {formatSalary(application.salary) && (
+{formatSalary({
+                      min: application.salary_min,
+                      max: application.salary_max,
+                      currency: application.salary_currency
+                    }) && (
                       <div className="flex items-center gap-1">
                         <ApperIcon name="DollarSign" size={14} />
-                        <span>{formatSalary(application.salary)}</span>
+                        <span>{formatSalary({
+                          min: application.salary_min,
+                          max: application.salary_max,
+                          currency: application.salary_currency
+                        })}</span>
                       </div>
                     )}
                   </div>

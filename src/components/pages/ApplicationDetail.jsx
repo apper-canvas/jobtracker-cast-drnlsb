@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
-import ReminderForm from "@/components/organisms/ReminderForm";
 import documentService from "@/services/api/documentService";
 import jobApplicationService from "@/services/api/jobApplicationService";
 import reminderService from "@/services/api/reminderService";
@@ -12,6 +11,7 @@ import Interview from "@/components/pages/Interview";
 import Documents from "@/components/pages/Documents";
 import SkeletonLoader from "@/components/molecules/SkeletonLoader";
 import ErrorState from "@/components/molecules/ErrorState";
+import ReminderForm from "@/components/organisms/ReminderForm";
 import ApplicationForm from "@/components/organisms/ApplicationForm";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
@@ -268,8 +268,8 @@ const handleEditSuccess = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Applied Date
                 </label>
-                <p className="text-gray-900">
-                  {format(new Date(application.appliedDate), 'MMMM d, yyyy')}
+<p className="text-gray-900">
+                  {format(new Date(application.applied_date || application.appliedDate), 'MMMM d, yyyy')}
                 </p>
               </div>
 
@@ -285,24 +285,28 @@ const handleEditSuccess = () => {
                 </div>
               )}
 
-              <div>
+<div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Salary Range
                 </label>
                 <p className="text-gray-900 flex items-center gap-1">
                   <ApperIcon name="DollarSign" size={14} />
-                  {formatSalary(application.salary)}
+                  {formatSalary({
+                    min: application.salary_min,
+                    max: application.salary_max,
+                    currency: application.salary_currency
+                  })}
                 </p>
               </div>
             </div>
-
+          </Card>
             {application.jobUrl && (
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Job Posting
                 </label>
-                <a
-                  href={application.jobUrl}
+<a
+                  href={application.job_url || application.jobUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
@@ -345,10 +349,10 @@ const handleEditSuccess = () => {
                       />
                       <div>
                         <p className="font-medium text-gray-900">{document.filename}</p>
-                        <p className="text-sm text-gray-500">
+<p className="text-sm text-gray-500">
                           Version {document.version} • 
                           {document.type.replace('_', ' ')} • 
-                          Uploaded {format(new Date(document.uploadDate), 'MMM d, yyyy')}
+                          Uploaded {format(new Date(document.upload_date || document.uploadDate), 'MMM d, yyyy')}
                         </p>
                       </div>
                     </div>
@@ -384,20 +388,20 @@ const handleEditSuccess = () => {
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full mt-2"></div>
                 <div>
-                  <p className="font-medium text-gray-900">Application Created</p>
+<p className="font-medium text-gray-900">Application Created</p>
                   <p className="text-sm text-gray-500">
-                    {format(new Date(application.createdAt || application.appliedDate), 'MMM d, yyyy h:mm a')}
+                    {format(new Date(application.created_at || application.createdAt || application.applied_date), 'MMM d, yyyy h:mm a')}
                   </p>
                 </div>
               </div>
               
-              {application.updatedAt && application.updatedAt !== application.createdAt && (
+{(application.updated_at || application.updatedAt) && (application.updated_at || application.updatedAt) !== (application.created_at || application.createdAt) && (
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-2 h-2 bg-secondary rounded-full mt-2"></div>
                   <div>
                     <p className="font-medium text-gray-900">Last Updated</p>
                     <p className="text-sm text-gray-500">
-                      {format(new Date(application.updatedAt), 'MMM d, yyyy h:mm a')}
+                      {format(new Date(application.updated_at || application.updatedAt), 'MMM d, yyyy h:mm a')}
                     </p>
                   </div>
                 </div>

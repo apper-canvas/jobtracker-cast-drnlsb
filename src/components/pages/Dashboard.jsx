@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Card from '@/components/atoms/Card';
-import Button from '@/components/atoms/Button';
-import Badge from '@/components/atoms/Badge';
-import ApperIcon from '@/components/ApperIcon';
-import StatusPipeline from '@/components/molecules/StatusPipeline';
-import ProgressRing from '@/components/molecules/ProgressRing';
-import SkeletonLoader from '@/components/molecules/SkeletonLoader';
-import EmptyState from '@/components/molecules/EmptyState';
-import ErrorState from '@/components/molecules/ErrorState';
-import jobApplicationService from '@/services/api/jobApplicationService';
-import reminderService from '@/services/api/reminderService';
-import { format, isToday, isTomorrow } from 'date-fns';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { format, isToday, isTomorrow } from "date-fns";
+import jobApplicationService from "@/services/api/jobApplicationService";
+import reminderService from "@/services/api/reminderService";
+import ApperIcon from "@/components/ApperIcon";
+import Applications from "@/components/pages/Applications";
+import Calendar from "@/components/pages/Calendar";
+import ProgressRing from "@/components/molecules/ProgressRing";
+import SkeletonLoader from "@/components/molecules/SkeletonLoader";
+import StatusPipeline from "@/components/molecules/StatusPipeline";
+import EmptyState from "@/components/molecules/EmptyState";
+import ErrorState from "@/components/molecules/ErrorState";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -62,9 +64,9 @@ const Dashboard = () => {
     return Math.round((successCount / applications.length) * 100);
   };
 
-  const getRecentApplications = () => {
+const getRecentApplications = () => {
     return applications
-      .sort((a, b) => new Date(b.appliedDate) - new Date(a.appliedDate))
+      .sort((a, b) => new Date(b.applied_date || b.appliedDate) - new Date(a.applied_date || a.appliedDate))
       .slice(0, 5);
   };
 
@@ -253,6 +255,7 @@ const Dashboard = () => {
                   transition={{ delay: 0.6 + (index * 0.1) }}
                   onClick={() => navigate(`/applications/${application.Id}`)}
                   className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+className="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
                 >
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-gray-900 truncate">
@@ -260,9 +263,8 @@ const Dashboard = () => {
                     </h3>
                     <div className="flex items-center gap-3 mt-1">
                       <span className="text-gray-600">{application.company}</span>
-                      <span className="text-gray-400">•</span>
                       <span className="text-sm text-gray-500">
-                        {format(new Date(application.appliedDate), 'MMM d')}
+                        {format(new Date(application.applied_date || application.appliedDate), 'MMM d')}
                       </span>
                     </div>
                   </div>
