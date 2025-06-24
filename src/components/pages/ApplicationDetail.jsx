@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { format } from 'date-fns';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import Badge from '@/components/atoms/Badge';
-import ApperIcon from '@/components/ApperIcon';
-import ApplicationForm from '@/components/organisms/ApplicationForm';
-import SkeletonLoader from '@/components/molecules/SkeletonLoader';
-import ErrorState from '@/components/molecules/ErrorState';
-import jobApplicationService from '@/services/api/jobApplicationService';
-import documentService from '@/services/api/documentService';
-import reminderService from '@/services/api/reminderService';
-
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import ReminderForm from "@/components/organisms/ReminderForm";
+import documentService from "@/services/api/documentService";
+import jobApplicationService from "@/services/api/jobApplicationService";
+import reminderService from "@/services/api/reminderService";
+import ApperIcon from "@/components/ApperIcon";
+import Interview from "@/components/pages/Interview";
+import Documents from "@/components/pages/Documents";
+import SkeletonLoader from "@/components/molecules/SkeletonLoader";
+import ErrorState from "@/components/molecules/ErrorState";
+import ApplicationForm from "@/components/organisms/ApplicationForm";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 const ApplicationDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,9 +23,9 @@ const ApplicationDetail = () => {
   const [documents, setDocuments] = useState([]);
   const [reminders, setReminders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
+  const [showReminderForm, setShowReminderForm] = useState(false);
   useEffect(() => {
     if (id) {
       loadApplicationData();
@@ -66,8 +68,13 @@ const ApplicationDetail = () => {
     }
   };
 
-  const handleEditSuccess = () => {
+const handleEditSuccess = () => {
     setIsEditing(false);
+    loadApplicationData();
+  };
+
+  const handleReminderSuccess = () => {
+    setShowReminderForm(false);
     loadApplicationData();
   };
 
@@ -453,18 +460,27 @@ const ApplicationDetail = () => {
                 Upload Documents
               </Button>
               
-              <Button
+<Button
                 variant="outline"
                 className="w-full justify-start"
-                icon="MessageCircle"
-                onClick={() => toast.info('Follow-up reminder functionality would be implemented here')}
+                icon="Bell"
+                onClick={() => setShowReminderForm(true)}
               >
-                Set Follow-up Reminder
+                Add Reminder
               </Button>
             </div>
-          </Card>
+</Card>
         </div>
       </div>
+
+      {/* Reminder Form Modal */}
+      {showReminderForm && (
+        <ReminderForm
+          applicationId={id}
+          onSuccess={handleReminderSuccess}
+          onCancel={() => setShowReminderForm(false)}
+        />
+      )}
     </motion.div>
   );
 };
