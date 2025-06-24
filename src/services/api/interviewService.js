@@ -9,6 +9,43 @@ let lastNoteId = Math.max(...notesData.map(note => note.Id), 0);
 let questionsData = [...interviewQuestionsData];
 let lastQuestionId = Math.max(...questionsData.map(question => question.Id), 0);
 
+// Scheduled interviews data management
+let scheduledInterviewsData = [
+  {
+    Id: 1,
+    title: 'Frontend Developer Interview',
+    company: 'TechCorp Inc.',
+    position: 'Senior Frontend Developer',
+    date: '2024-01-25',
+    time: '14:00',
+    type: 'interview',
+    location: 'Virtual - Zoom',
+    interviewerName: 'Sarah Johnson',
+    interviewerEmail: 'sarah.johnson@techcorp.com',
+    notes: 'Prepare React and TypeScript questions',
+    status: 'scheduled',
+    createdAt: '2024-01-15T10:00:00.000Z',
+    updatedAt: '2024-01-15T10:00:00.000Z'
+  },
+  {
+    Id: 2,
+    title: 'Backend Engineer Interview',
+    company: 'StartupXYZ',
+    position: 'Backend Engineer',
+    date: '2024-01-28',
+    time: '10:30',
+    type: 'interview',
+    location: '123 Tech Street, San Francisco',
+    interviewerName: 'Mike Chen',
+    interviewerEmail: 'mike@startupxyz.com',
+    notes: 'Focus on Node.js and database design',
+    status: 'scheduled',
+    createdAt: '2024-01-16T09:30:00.000Z',
+    updatedAt: '2024-01-16T09:30:00.000Z'
+  }
+];
+let lastScheduledInterviewId = Math.max(...scheduledInterviewsData.map(interview => interview.Id), 0);
+
 // Utility function to simulate API delay
 const delay = (ms = 200) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -124,6 +161,66 @@ export const deleteQuestion = async (id) => {
   const index = questionsData.findIndex(question => question.Id === questionId);
   if (index === -1) throw new Error('Question not found');
   
-  questionsData.splice(index, 1);
+questionsData.splice(index, 1);
+  return true;
+};
+
+// Scheduled Interviews Service Functions
+export const getScheduledInterviews = async () => {
+  await delay();
+  return [...scheduledInterviewsData];
+};
+
+export const getScheduledInterviewById = async (id) => {
+  await delay();
+  const interviewId = parseInt(id);
+  if (isNaN(interviewId)) return null;
+  
+  const interview = scheduledInterviewsData.find(interview => interview.Id === interviewId);
+  return interview ? { ...interview } : null;
+};
+
+export const scheduleInterview = async (interviewData) => {
+  await delay();
+  const newInterview = {
+    ...interviewData,
+    Id: ++lastScheduledInterviewId,
+    type: 'interview',
+    status: 'scheduled',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  scheduledInterviewsData.push(newInterview);
+  return { ...newInterview };
+};
+
+export const updateScheduledInterview = async (id, interviewData) => {
+  await delay();
+  const interviewId = parseInt(id);
+  if (isNaN(interviewId)) throw new Error('Invalid interview ID');
+  
+  const index = scheduledInterviewsData.findIndex(interview => interview.Id === interviewId);
+  if (index === -1) throw new Error('Interview not found');
+  
+  const updatedInterview = {
+    ...scheduledInterviewsData[index],
+    ...interviewData,
+    Id: interviewId, // Prevent ID modification
+    updatedAt: new Date().toISOString()
+  };
+  
+  scheduledInterviewsData[index] = updatedInterview;
+  return { ...updatedInterview };
+};
+
+export const deleteScheduledInterview = async (id) => {
+  await delay();
+  const interviewId = parseInt(id);
+  if (isNaN(interviewId)) throw new Error('Invalid interview ID');
+  
+  const index = scheduledInterviewsData.findIndex(interview => interview.Id === interviewId);
+  if (index === -1) throw new Error('Interview not found');
+  
+  scheduledInterviewsData.splice(index, 1);
   return true;
 };
