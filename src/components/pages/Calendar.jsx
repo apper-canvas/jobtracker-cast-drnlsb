@@ -166,7 +166,7 @@ const getEventsForDate = (date) => {
           <p className="text-gray-600 mt-1">Track your application dates and upcoming events</p>
         </div>
 
-        <ErrorState 
+<ErrorState 
           title="Failed to Load Calendar"
           message={error}
           onRetry={loadCalendarData}
@@ -174,9 +174,6 @@ const getEventsForDate = (date) => {
       </div>
     );
   }
-}
-
-  const selectedDateEvents = selectedDate ? getEventsForDate(selectedDate) : [];
 
   const handleInterviewSubmit = async (e) => {
     e.preventDefault();
@@ -336,7 +333,7 @@ event.type === 'reminder'
           </Card>
         </div>
 
-        {/* Sidebar */}
+{/* Sidebar */}
         <div className="space-y-6">
           {/* Selected Date Events */}
           {selectedDate && (
@@ -345,8 +342,10 @@ event.type === 'reminder'
                 {format(selectedDate, 'MMMM d, yyyy')}
               </h3>
               
-              {selectedDateEvents.length === 0 ? (
-                <div className="text-center py-6">
+              {(() => {
+                const selectedDateEvents = getEventsForDate(selectedDate);
+                return selectedDateEvents.length === 0 ? (
+<div className="text-center py-6">
                   <ApperIcon name="Calendar" size={32} className="text-gray-300 mx-auto mb-2" />
                   <p className="text-gray-500 text-sm">No events this day</p>
                 </div>
@@ -363,7 +362,7 @@ event.type === 'reminder'
                         className="text-primary mt-0.5" 
                       />
                       <div className="flex-1 min-w-0">
-<p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-gray-900">
                           {event.type === 'reminder' 
                             ? event.message 
                             : event.type === 'interview'
@@ -383,7 +382,8 @@ event.type === 'reminder'
                     </div>
                   ))}
                 </div>
-              )}
+              );
+              })()}
             </Card>
           )}
 
