@@ -622,10 +622,11 @@ event.type === 'reminder'
                 </Button>
               </div>
             </form>
-          </motion.div>
+</motion.div>
         </motion.div>
       )}
     </motion.div>
+  );
 };
 
 export default Calendar;
