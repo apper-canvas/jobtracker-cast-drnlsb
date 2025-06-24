@@ -299,13 +299,13 @@ const handleEditSuccess = () => {
                 </p>
               </div>
             </div>
-          </Card>
+
             {application.jobUrl && (
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Job Posting
                 </label>
-<a
+                <a
                   href={application.job_url || application.jobUrl}
                   target="_blank"
                   rel="noopener noreferrer"
