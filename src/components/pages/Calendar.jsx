@@ -9,9 +9,9 @@ import ApperIcon from '@/components/ApperIcon';
 import SkeletonLoader from '@/components/molecules/SkeletonLoader';
 import ErrorState from '@/components/molecules/ErrorState';
 import EmptyState from '@/components/molecules/EmptyState';
+import ReminderForm from '@/components/organisms/ReminderForm';
 import reminderService from '@/services/api/reminderService';
 import jobApplicationService from '@/services/api/jobApplicationService';
-
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [reminders, setReminders] = useState([]);
@@ -19,7 +19,7 @@ const Calendar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const [showReminderForm, setShowReminderForm] = useState(false);
   useEffect(() => {
     loadCalendarData();
   }, []);
@@ -351,15 +351,14 @@ const Calendar = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             
             <div className="space-y-3">
-              <Button
+<Button
                 variant="outline"
                 className="w-full justify-start"
                 icon="Plus"
-                onClick={() => toast.info('Add reminder functionality would be implemented here')}
+                onClick={() => setShowReminderForm(true)}
               >
                 Add Reminder
               </Button>
-              
               <Button
                 variant="outline"
                 className="w-full justify-start"
@@ -370,8 +369,19 @@ const Calendar = () => {
               </Button>
             </div>
           </Card>
-        </div>
+</div>
       </div>
+
+      {/* Reminder Form Modal */}
+      {showReminderForm && (
+        <ReminderForm
+          onSuccess={() => {
+            setShowReminderForm(false);
+            loadCalendarData();
+          }}
+          onCancel={() => setShowReminderForm(false)}
+        />
+      )}
     </motion.div>
   );
 };
